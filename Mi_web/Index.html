@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eSIM · Conectado en cualquier destino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:   #0f0f0f;
+  --white:   #fafaf8;
+  --green:   #1a6b4a;
+  --green-l: #e8f2ed;
+  --green-m: #c2ddd0;
+  --sand:    #f0ece3;
+  --sand-d:  #d8d2c4;
+  --gray:    #888880;
+  --mono: 'JetBrains Mono', monospace;
+  --display: 'Bebas Neue', sans-serif;
+  --body: 'Archivo', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--white);
+  color: var(--black);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--black);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 54px;
+  border-bottom: 2px solid var(--green);
+}
+
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--white);
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-logo-signal {
+  display: flex; gap: 3px; align-items: flex-end; height: 14px;
+}
+.nav-logo-signal span {
+  width: 3px; background: var(--green); border-radius: 1px;
+  animation: signal 1.4s ease-in-out infinite;
+}
+.nav-logo-signal span:nth-child(1) { height: 5px; animation-delay: 0s; }
+.nav-logo-signal span:nth-child(2) { height: 9px; animation-delay: 0.15s; }
+.nav-logo-signal span:nth-child(3) { height: 14px; animation-delay: 0.3s; }
+@keyframes signal {
+  0%,100% { opacity: 0.3; } 50% { opacity: 1; }
+}
+
+.nav-links {
+  display: flex; gap: 36px;
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #888;
+}
+.nav-links a { text-decoration: none; color: inherit; transition: color 0.15s; }
+.nav-links a:hover { color: var(--white); }
+
+.nav-right {
+  display: flex; align-items: center; gap: 16px;
+}
+.nav-badge {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--green); border: 1px solid var(--green);
+  padding: 4px 10px;
+}
+.nav-cta {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  background: var(--green); color: var(--white);
+  border: none; padding: 9px 20px; cursor: pointer;
+  transition: background 0.15s;
+}
+.nav-cta:hover { background: #145538; }
+
+/* ── TICKER ── */
+.ticker {
+  background: var(--sand); border-bottom: 1px solid var(--sand-d);
+  overflow: hidden; white-space: nowrap; padding: 8px 0;
+}
+.ticker-track {
+  display: inline-flex; animation: tick 30s linear infinite;
+}
+.ticker-item {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gray); padding: 0 28px;
+  display: flex; align-items: center; gap: 10px;
+}
+.ticker-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+@keyframes tick { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* ── HERO WRAPPER ── */
+.hero {
+  display: grid;
+  grid-template-rows: auto auto;
+  background: var(--white);
+}
+
+/* ── HERO TOP — titular + países rápidos ── */
+.hero-top {
+  padding: 60px 48px 0;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 40px;
+  align-items: start;
+}
+
+.hero-headline {
+  padding-top: 8px;
+}
+
+.hero-pretag {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--green); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.hero-pretag::before {
+  content: '';
+  display: inline-block; width: 24px; height: 2px;
+  background: var(--green);
+}
+
+h1 {
+  font-family: var(--display);
+  font-size: clamp(80px, 10vw, 130px);
+  line-height: 0.9; letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+h1 em { color: var(--green); font-style: normal; }
+
+.hero-copy {
+  font-size: 16px; color: #555; line-height: 1.65;
+  max-width: 400px; margin-bottom: 28px;
+}
+
+/* países rápidos destinos populares */
+.quick-dest {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.qdest {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  border: 1px solid var(--sand-d); padding: 6px 14px;
+  cursor: pointer; color: var(--gray);
+  transition: all 0.15s; background: var(--white);
+}
+.qdest:hover, .qdest.active {
+  border-color: var(--green); color: var(--green);
+  background: var(--green-l);
+}
+
+/* ── BOARDING PASS lateral ── */
+.hero-pass {
+  position: relative; padding-top: 0;
+}
+
+.pass-card {
+  background: var(--white);
+  border: 1.5px solid var(--black);
+  position: relative;
+  transform: rotate(1.2deg);
+  transition: transform 0.3s ease;
+  box-shadow: 4px 4px 0 var(--black);
+}
+.pass-card:hover { transform: rotate(0deg); }
+
+.pass-stripe {
+  background: var(--green); height: 10px;
+}
+
+.pass-header {
+  padding: 14px 18px 10px;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  border-bottom: 1px solid #eee;
+}
+.pass-type {
+  font-family: var(--mono); font-size: 8px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray);
+}
+.pass-status {
+  font-family: var(--mono); font-size: 8px;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--green); border: 1px solid var(--green);
+  padding: 2px 8px;
+}
+
+.pass-route {
+  padding: 16px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.pass-iata {
+  font-family: var(--display); font-size: 54px;
+  letter-spacing: 0.02em; line-height: 1;
+}
+.pass-arrow {
+  font-size: 22px; color: var(--green);
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.pass-route-line {
+  width: 50px; height: 1px;
+  background: repeating-linear-gradient(90deg, var(--sand-d) 0, var(--sand-d) 4px, transparent 4px, transparent 8px);
+}
+
+.pass-iata-label {
+  font-family: var(--mono); font-size: 8px;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray);
+  margin-top: 2px;
+}
+
+.pass-fields {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  border-top: 1px solid #eee;
+}
+.pass-field {
+  padding: 10px 14px;
+  border-right: 1px solid #eee;
+}
+.pass-field:last-child { border-right: none; }
+.pass-field label {
+  display: block; font-family: var(--mono); font-size: 7px;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gray); margin-bottom: 3px;
+}
+.pass-field span {
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+}
+.pass-field span.green { color: var(--green); }
+
+.pass-tear {
+  position: relative; margin: 0 -2px;
+  border-top: 1.5px dashed #ddd;
+}
+.pass-tear::before, .pass-tear::after {
+  content: ''; position: absolute; top: -9px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--white); border: 1.5px solid var(--black);
+}
+.pass-tear::before { left: -9px; }
+.pass-tear::after { right: -9px; }
+
+.pass-barcode {
+  padding: 14px 18px 12px;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+}
+.barcode-svg { display: block; }
+.pass-ref {
+  font-family: var(--mono); font-size: 7px;
+  letter-spacing: 0.25em; color: var(--gray);
+  text-transform: uppercase;
+}
+
+/* ── SELECTOR — la pieza clave ── */
+.hero-selector-wrap {
+  background: var(--black);
+  margin: 40px 48px 0;
+  padding: 32px 36px 28px;
+  position: relative;
+}
+
+.selector-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px;
+}
+.selector-title {
+  font-family: var(--display);
+  font-size: 32px; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--white);
+}
+.selector-title em { color: var(--green); font-style: normal; }
+.selector-step {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.15em; text-transform: uppercase; color: #555;
+}
+
+.selector-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 0;
+  align-items: end;
+}
+
+.sel-group {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.sel-group label {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: #666;
+}
+
+.sel-control {
+  background: #1a1a1a; border: 1px solid #333;
+  color: var(--white); padding: 0 16px;
+  height: 56px;
+  font-family: var(--mono); font-size: 15px; font-weight: 700;
+  letter-spacing: 0.04em;
+  appearance: none; outline: none; cursor: pointer;
+  transition: border-color 0.15s;
+  border-right: none;
+}
+.sel-control:focus { border-color: var(--green); }
+.sel-control option { background: #1a1a1a; }
+
+.sel-divider {
+  background: #222; border: 1px solid #333; border-left: none; border-right: none;
+  height: 56px; display: flex; align-items: center; padding: 0 16px;
+  color: var(--green); font-size: 20px; font-weight: 700;
+}
+
+.sel-btn {
+  background: var(--green); color: var(--white);
+  border: none; height: 56px; padding: 0 36px;
+  font-family: var(--mono); font-size: 12px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  cursor: pointer; transition: background 0.15s, letter-spacing 0.2s;
+  white-space: nowrap;
+}
+.sel-btn:hover { background: #145538; letter-spacing: 0.2em; }
+
+.selector-hint-row {
+  margin-top: 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.sel-hint {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #444; transition: color 0.3s;
+}
+.sel-hint.active { color: var(--green); }
+.sel-hint-sep { width: 20px; height: 1px; background: #333; }
+.sel-popular {
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.sel-pop-tag {
+  font-family: var(--mono); font-size: 8px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  border: 1px solid #333; color: #555; padding: 3px 10px;
+  cursor: pointer; transition: all 0.15s;
+}
+.sel-pop-tag:hover { border-color: var(--green); color: var(--green); }
+
+/* ── DESTINOS POPULARES (bajo selector) ── */
+.popular-strip {
+  border-top: 1px solid var(--sand-d); border-bottom: 1px solid var(--sand-d);
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.pop-dest {
+  padding: 20px 24px;
+  border-right: 1px solid var(--sand-d);
+  cursor: pointer; transition: background 0.15s;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.pop-dest:last-child { border-right: none; }
+.pop-dest:hover { background: var(--green-l); }
+
+.pop-flag { font-size: 22px; margin-bottom: 4px; }
+.pop-country {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  font-weight: 700; color: var(--black);
+}
+.pop-desde {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--gray); letter-spacing: 0.08em;
+}
+.pop-desde strong { color: var(--green); }
+
+/* ── TRUST ROW ── */
+.trust-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-top: 2px solid var(--black);
+}
+.trust-cell {
+  padding: 24px 32px;
+  border-right: 1px solid var(--sand-d);
+  display: flex; align-items: center; gap: 14px;
+}
+.trust-cell:last-child { border-right: none; }
+.trust-num {
+  font-family: var(--display); font-size: 36px;
+  color: var(--green); line-height: 1;
+}
+.trust-txt label {
+  display: block; font-family: var(--mono); font-size: 8px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gray); margin-bottom: 2px;
+}
+.trust-txt span {
+  font-size: 13px; font-weight: 600; color: var(--black);
+}
+
+/* ── ANIMATIONS ── */
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  animation: revealUp 0.55s ease forwards;
+}
+.reveal:nth-child(1) { animation-delay: 0.05s; }
+.reveal:nth-child(2) { animation-delay: 0.15s; }
+.reveal:nth-child(3) { animation-delay: 0.25s; }
+.reveal:nth-child(4) { animation-delay: 0.35s; }
+.reveal:nth-child(5) { animation-delay: 0.45s; }
+
+@keyframes revealUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 860px) {
+  .hero-top { grid-template-columns: 1fr; }
+  .hero-pass { display: none; }
+  .selector-fields { grid-template-columns: 1fr; }
+  .sel-control { border-right: 1px solid #333; }
+  .sel-divider { display: none; }
+  .sel-btn { width: 100%; justify-content: center; }
+  .popular-strip { grid-template-columns: repeat(3, 1fr); }
+  .trust-row { grid-template-columns: 1fr 1fr; }
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero-top, .hero-selector-wrap { padding-left: 20px; padding-right: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-signal">
+      <span></span><span></span><span></span>
+    </div>
+    SIMPASS
+  </div>
+  <div class="nav-links">
+    <a href="#">Destinos</a>
+    <a href="#">¿Qué es eSIM?</a>
+    <a href="#">Cómo funciona</a>
+    <a href="#">FAQ</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-badge">✓ Activación instantánea</div>
+    <button class="nav-cta">Ver planes →</button>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <div class="ticker-item"><div class="ticker-dot"></div>Europa desde 9€</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Japón · Red 4G/LTE</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Sin roaming · Sin sorpresas</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>190+ países cubiertos</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Actívala en 2 minutos</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Compatible iPhone y Android</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>América desde 14€</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Asia desde 12€</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Europa desde 9€</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Japón · Red 4G/LTE</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Sin roaming · Sin sorpresas</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>190+ países cubiertos</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Actívala en 2 minutos</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Compatible iPhone y Android</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>América desde 14€</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Asia desde 12€</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+
+  <div class="hero-top">
+
+    <!-- TITULAR -->
+    <div class="hero-headline">
+      <div class="hero-pretag reveal">eSIM · Datos móviles sin fronteras</div>
+      <h1 class="reveal">
+        VIAJA<br>
+        SIEMPRE<br>
+        <em>CONECTADO</em>
+      </h1>
+      <p class="hero-copy reveal">
+        Elige tu destino, elige tus días. Te encontramos el mejor plan de datos al instante — sin contratos, sin roaming, sin líos.
+      </p>
+      <div class="quick-dest reveal" id="quick-dest">
+        <span class="qdest" data-val="eu-eu" data-days="7">🇪🇺 Europa</span>
+        <span class="qdest" data-val="as-jp" data-days="14">🇯🇵 Japón</span>
+        <span class="qdest" data-val="am-us" data-days="10">🇺🇸 EE.UU.</span>
+        <span class="qdest" data-val="as-th" data-days="10">🇹🇭 Tailandia</span>
+        <span class="qdest" data-val="me-ae" data-days="7">🇦🇪 Dubai</span>
+        <span class="qdest" data-val="am-mx" data-days="7">🇲🇽 México</span>
+      </div>
+    </div>
+
+    <!-- BOARDING PASS -->
+    <div class="hero-pass reveal">
+      <div class="pass-card" id="pass-card">
+        <div class="pass-stripe"></div>
+        <div class="pass-header">
+          <div class="pass-type">eSIM · Data Pass</div>
+          <div class="pass-status">● ACTIVA</div>
+        </div>
+        <div class="pass-route">
+          <div>
+            <div class="pass-iata" id="p-origin">ESP</div>
+            <div class="pass-iata-label">España</div>
+          </div>
+          <div class="pass-arrow">
+            <span>✈</span>
+            <div class="pass-route-line"></div>
+          </div>
+          <div style="text-align:right">
+            <div class="pass-iata" id="p-dest">JPN</div>
+            <div class="pass-iata-label" id="p-dest-name" style="text-align:right">Japón</div>
+          </div>
+        </div>
+        <div class="pass-fields">
+          <div class="pass-field">
+            <label>Plan</label>
+            <span class="green" id="p-plan">ASIA·10</span>
+          </div>
+          <div class="pass-field">
+            <label>Datos</label>
+            <span id="p-data">10 GB</span>
+          </div>
+          <div class="pass-field">
+            <label>Días</label>
+            <span id="p-days">30d</span>
+          </div>
+        </div>
+        <div class="pass-tear"></div>
+        <div class="pass-barcode">
+          <svg class="barcode-svg" width="240" height="40" id="barcode-svg"></svg>
+          <div class="pass-ref" id="p-ref">SIM · 2025 · AS · JP · 0047</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SELECTOR GRANDE -->
+  <div class="hero-selector-wrap">
+    <div class="selector-header">
+      <div class="selector-title">¿A dónde <em>viajas</em>?</div>
+      <div class="selector-step">PASO 1 DE 2 — ELIGE DESTINO Y DÍAS</div>
+    </div>
+
+    <div class="selector-fields">
+      <div class="sel-group">
+        <label>¿A qué país vas?</label>
+        <select class="sel-control" id="dest-select">
+          <option value="">— Selecciona destino —</option>
+          <optgroup label="🌍 Europa">
+            <option value="eu-eu">Europa completa (40+ países)</option>
+            <option value="eu-fr">Francia</option>
+            <option value="eu-it">Italia</option>
+            <option value="eu-de">Alemania</option>
+            <option value="eu-pt">Portugal</option>
+            <option value="eu-uk">Reino Unido</option>
+            <option value="eu-gr">Grecia</option>
+            <option value="eu-nl">Países Bajos</option>
+          </optgroup>
+          <optgroup label="🌏 Asia">
+            <option value="as-jp">Japón</option>
+            <option value="as-th">Tailandia</option>
+            <option value="as-id">Indonesia · Bali</option>
+            <option value="as-vn">Vietnam</option>
+            <option value="as-sg">Singapur</option>
+            <option value="as-kr">Corea del Sur</option>
+            <option value="as-in">India</option>
+          </optgroup>
+          <optgroup label="🌎 América">
+            <option value="am-us">Estados Unidos</option>
+            <option value="am-mx">México</option>
+            <option value="am-co">Colombia</option>
+            <option value="am-ar">Argentina</option>
+            <option value="am-br">Brasil</option>
+            <option value="am-pe">Perú</option>
+          </optgroup>
+          <optgroup label="🌍 África y Oriente Medio">
+            <option value="af-ma">Marruecos</option>
+            <option value="af-eg">Egipto</option>
+            <option value="me-ae">Emiratos · Dubai</option>
+            <option value="me-tr">Turquía</option>
+          </optgroup>
+          <optgroup label="🌐 Global">
+            <option value="gl-all">Todo el mundo (190+ países)</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="sel-group">
+        <label>¿Cuántos días?</label>
+        <select class="sel-control" id="days-select" style="border-left:none;">
+          <option value="">— Número de días —</option>
+          <option value="3">Hasta 3 días</option>
+          <option value="7">1 semana (7 días)</option>
+          <option value="14">2 semanas (14 días)</option>
+          <option value="21">3 semanas (21 días)</option>
+          <option value="30">1 mes (30 días)</option>
+          <option value="60">2 meses (60 días)</option>
+          <option value="90">3 meses (90 días)</option>
+        </select>
+      </div>
+
+      <div class="sel-divider">→</div>
+
+      <button class="sel-btn" onclick="buscarPlan()">
+        Buscar plan →
+      </button>
+    </div>
+
+    <div class="selector-hint-row">
+      <div class="sel-hint" id="sel-hint">Selecciona destino y días para ver el plan ideal</div>
+      <div class="sel-hint-sep"></div>
+      <div class="sel-popular">
+        <span class="sel-pop-tag" onclick="setDest('as-jp','14')">Japón · 14d</span>
+        <span class="sel-pop-tag" onclick="setDest('eu-eu','7')">Europa · 7d</span>
+        <span class="sel-pop-tag" onclick="setDest('am-us','10')">EE.UU. · 10d</span>
+        <span class="sel-pop-tag" onclick="setDest('as-th','14')">Tailandia · 14d</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DESTINOS POPULARES -->
+  <div class="popular-strip">
+    <div class="pop-dest" onclick="setDest('eu-eu','7')">
+      <div class="pop-flag">🌍</div>
+      <div class="pop-country">Europa</div>
+      <div class="pop-desde">desde <strong>9€</strong></div>
+    </div>
+    <div class="pop-dest" onclick="setDest('as-jp','14')">
+      <div class="pop-flag">🇯🇵</div>
+      <div class="pop-country">Japón</div>
+      <div class="pop-desde">desde <strong>18€</strong></div>
+    </div>
+    <div class="pop-dest" onclick="setDest('am-us','10')">
+      <div class="pop-flag">🇺🇸</div>
+      <div class="pop-country">EE.UU.</div>
+      <div class="pop-desde">desde <strong>19€</strong></div>
+    </div>
+    <div class="pop-dest" onclick="setDest('as-th','14')">
+      <div class="pop-flag">🇹🇭</div>
+      <div class="pop-country">Tailandia</div>
+      <div class="pop-desde">desde <strong>14€</strong></div>
+    </div>
+    <div class="pop-dest" onclick="setDest('me-ae','7')">
+      <div class="pop-flag">🇦🇪</div>
+      <div class="pop-country">Dubai</div>
+      <div class="pop-desde">desde <strong>16€</strong></div>
+    </div>
+    <div class="pop-dest" onclick="setDest('am-mx','10')">
+      <div class="pop-flag">🇲🇽</div>
+      <div class="pop-country">México</div>
+      <div class="pop-desde">desde <strong>12€</strong></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- TRUST ROW -->
+<div class="trust-row">
+  <div class="trust-cell">
+    <div class="trust-num">190+</div>
+    <div class="trust-txt">
+      <label>Cobertura</label>
+      <span>Países disponibles</span>
+    </div>
+  </div>
+  <div class="trust-cell">
+    <div class="trust-num">2'</div>
+    <div class="trust-txt">
+      <label>Activación</label>
+      <span>Lista al instante</span>
+    </div>
+  </div>
+  <div class="trust-cell">
+    <div class="trust-num">4.8★</div>
+    <div class="trust-txt">
+      <label>Valoración media</label>
+      <span>+12.000 reseñas</span>
+    </div>
+  </div>
+  <div class="trust-cell">
+    <div class="trust-num">0€</div>
+    <div class="trust-txt">
+      <label>Coste de roaming</label>
+      <span>Sin sorpresas en la factura</span>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ─── Datos de destinos ─── */
+const dests = {
+  'eu-eu': { code:'EUR', name:'Europa',        plan:'EU·10',   gb:'10 GB',  ref:'EU·ALL' },
+  'eu-fr': { code:'FRA', name:'Francia',       plan:'EU·5',    gb:'5 GB',   ref:'EU·FR'  },
+  'eu-it': { code:'ITA', name:'Italia',        plan:'EU·5',    gb:'5 GB',   ref:'EU·IT'  },
+  'eu-de': { code:'DEU', name:'Alemania',      plan:'EU·5',    gb:'5 GB',   ref:'EU·DE'  },
+  'eu-pt': { code:'PRT', name:'Portugal',      plan:'EU·5',    gb:'5 GB',   ref:'EU·PT'  },
+  'eu-uk': { code:'GBR', name:'Reino Unido',   plan:'UK·5',    gb:'5 GB',   ref:'EU·UK'  },
+  'eu-gr': { code:'GRC', name:'Grecia',        plan:'EU·5',    gb:'5 GB',   ref:'EU·GR'  },
+  'eu-nl': { code:'NLD', name:'Países Bajos',  plan:'EU·5',    gb:'5 GB',   ref:'EU·NL'  },
+  'as-jp': { code:'JPN', name:'Japón',         plan:'AS·10',   gb:'10 GB',  ref:'AS·JP'  },
+  'as-th': { code:'THA', name:'Tailandia',     plan:'AS·10',   gb:'10 GB',  ref:'AS·TH'  },
+  'as-id': { code:'IDN', name:'Indonesia',     plan:'AS·10',   gb:'10 GB',  ref:'AS·ID'  },
+  'as-vn': { code:'VNM', name:'Vietnam',       plan:'AS·5',    gb:'5 GB',   ref:'AS·VN'  },
+  'as-sg': { code:'SGP', name:'Singapur',      plan:'AS·5',    gb:'5 GB',   ref:'AS·SG'  },
+  'as-kr': { code:'KOR', name:'Corea del Sur', plan:'AS·10',   gb:'10 GB',  ref:'AS·KR'  },
+  'as-in': { code:'IND', name:'India',         plan:'AS·5',    gb:'5 GB',   ref:'AS·IN'  },
+  'am-us': { code:'USA', name:'EE.UU.',        plan:'AM·10',   gb:'10 GB',  ref:'AM·US'  },
+  'am-mx': { code:'MEX', name:'México',        plan:'AM·5',    gb:'5 GB',   ref:'AM·MX'  },
+  'am-co': { code:'COL', name:'Colombia',      plan:'AM·5',    gb:'5 GB',   ref:'AM·CO'  },
+  'am-ar': { code:'ARG', name:'Argentina',     plan:'AM·5',    gb:'5 GB',   ref:'AM·AR'  },
+  'am-br': { code:'BRA', name:'Brasil',        plan:'AM·10',   gb:'10 GB',  ref:'AM·BR'  },
+  'am-pe': { code:'PER', name:'Perú',          plan:'AM·5',    gb:'5 GB',   ref:'AM·PE'  },
+  'af-ma': { code:'MAR', name:'Marruecos',     plan:'AF·5',    gb:'5 GB',   ref:'AF·MA'  },
+  'af-eg': { code:'EGY', name:'Egipto',        plan:'AF·5',    gb:'5 GB',   ref:'AF·EG'  },
+  'me-ae': { code:'ARE', name:'Dubai',         plan:'ME·10',   gb:'10 GB',  ref:'ME·AE'  },
+  'me-tr': { code:'TUR', name:'Turquía',       plan:'ME·5',    gb:'5 GB',   ref:'ME·TR'  },
+  'gl-all':{ code:'WLD', name:'Global',        plan:'GL·∞',    gb:'Ilimit.', ref:'GL·ALL' },
+};
+
+/* ─── Barcode ─── */
+function drawBarcode() {
+  const svg = document.getElementById('barcode-svg');
+  svg.innerHTML = '';
+  const ns = 'http://www.w3.org/2000/svg';
+  const pattern = [3,1,4,1,5,2,3,1,2,4,1,3,2,1,5,1,3,2,4,1,2,3,1,4,2,1,3,5,1,2,4,1,3,2,1,4];
+  let x = 4;
+  pattern.forEach((w, i) => {
+    const r = document.createElementNS(ns, 'rect');
+    const h = i % 3 === 0 ? 40 : i % 2 === 0 ? 30 : 36;
+    r.setAttribute('x', x);
+    r.setAttribute('y', (40 - h) / 2);
+    r.setAttribute('width', w);
+    r.setAttribute('height', h);
+    r.setAttribute('fill', '#0f0f0f');
+    svg.appendChild(r);
+    x += w + (i % 2 === 0 ? 2 : 3);
+  });
+}
+drawBarcode();
+
+/* ─── Actualizar boarding pass ─── */
+function updatePass(destKey, days) {
+  const d = dests[destKey];
+  if (!d) return;
+  const el = (id) => document.getElementById(id);
+  el('p-dest').textContent     = d.code;
+  el('p-dest-name').textContent = d.name;
+  el('p-plan').textContent     = d.plan;
+  el('p-data').textContent     = d.gb;
+  el('p-days').textContent     = days ? days + 'd' : '—';
+  el('p-ref').textContent      = 'SIM · 2025 · ' + d.ref;
+
+  const card = document.getElementById('pass-card');
+  card.style.opacity = '0.5';
+  card.style.transform = 'rotate(-1.5deg) scale(0.97)';
+  setTimeout(() => {
+    card.style.transition = 'all 0.25s ease';
+    card.style.opacity = '1';
+    card.style.transform = 'rotate(1.2deg) scale(1)';
+    drawBarcode();
+  }, 180);
+
+  const hint = document.getElementById('sel-hint');
+  hint.textContent = d.name + ' · ' + d.gb + (days ? ' · ' + days + ' días' : '') + ' → Plan recomendado: ' + d.plan;
+  hint.classList.add('active');
+}
+
+/* ─── Selectores ─── */
+const destSel = document.getElementById('dest-select');
+const daysSel = document.getElementById('days-select');
+
+destSel.addEventListener('change', () => {
+  if (destSel.value) updatePass(destSel.value, daysSel.value);
+});
+daysSel.addEventListener('change', () => {
+  if (destSel.value) updatePass(destSel.value, daysSel.value);
+});
+
+/* ─── Atajos rápidos ─── */
+function setDest(destKey, days) {
+  destSel.value = destKey;
+  daysSel.value = days;
+  updatePass(destKey, days);
+  document.querySelector('.hero-selector-wrap').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  /* highlight */
+  document.querySelectorAll('.qdest').forEach(el => el.classList.remove('active'));
+  const match = document.querySelector(`.qdest[data-val="${destKey}"]`);
+  if (match) match.classList.add('active');
+}
+
+/* Quick dest chips */
+document.querySelectorAll('.qdest').forEach(el => {
+  el.addEventListener('click', () => setDest(el.dataset.val, el.dataset.days));
+});
+
+/* Destinos populares chips */
+document.querySelectorAll('.sel-pop-tag').forEach(el => {
+  el.addEventListener('click', function() {
+    const parts = this.getAttribute('onclick').match(/'([^']+)','([^']+)'/);
+    if (parts) setDest(parts[1], parts[2]);
+  });
+});
+
+function buscarPlan() {
+  const dest = destSel.value;
+  const days = daysSel.value;
+  if (!dest || !days) {
+    document.getElementById('sel-hint').textContent = '⚠ Elige un destino y el número de días primero.';
+    document.getElementById('sel-hint').classList.add('active');
+    return;
+  }
+  const d = dests[dest];
+  alert('Buscando el mejor plan para: ' + d.name + ' · ' + days + ' días\n\n[Aquí irá tu enlace de afiliado personalizado]');
+}
+</script>
+</body>
+</html>
